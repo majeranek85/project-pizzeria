@@ -55,7 +55,7 @@
   const app = {
     initMenu: function(){
       const thisApp = this;
-      console.log('thisApp.data:', thisApp.data);
+      //console.log('thisApp.data:', thisApp.data);
 
       for (let productData in thisApp.data.products){
         new Product (productData, thisApp.data.products[productData]);
@@ -89,8 +89,9 @@
       thisProduct.data = data;
 
       thisProduct.renderInMenu();
+      thisProduct.initAccordion();
 
-      console.log('new Product:', thisProduct);
+      //console.log('new Product:', thisProduct);
     }
 
     renderInMenu(){
@@ -98,13 +99,42 @@
 
       /* generate HTML based on template */
       const generatedHTML = templates.menuProduct(thisProduct.data);
-      console.log(generatedHTML);
+      //console.log(generatedHTML);
       /* create element using utils.createElementFromHTML */
       thisProduct.element = utils.createDOMFromHTML(generatedHTML);
       /* find menu container */
       const menuContainer = document.querySelector(select.containerOf.menu);
       /* add element to menu */
       menuContainer.appendChild(thisProduct.element);
+    }
+
+    initAccordion(){
+      const thisProduct = this;
+
+      /* [DONE] find the clickable trigger (element that should react to clicking) */
+      const trigger = document.querySelector(select.menuProduct.clickable);
+      console.log(trigger);
+      /* START: click event listener to trigger */
+      trigger.addEventListener('click', function(event){
+      console.log('clicked');
+        /* prevent default action for event */
+        event.preventDefault();
+        /* toggle active class on element of thisProduct */
+
+        /* find all active products */
+
+        /* START LOOP: for each active product */
+
+          /* START: if the active product isn't the element of thisProduct */
+
+            /* remove class active for the active product */
+
+          /* END: if the active product isn't the element of thisProduct */
+
+        /* END LOOP: for each active product */
+
+      /* [DONE] END: click event listener to trigger */
+      })
     }
   }
 
