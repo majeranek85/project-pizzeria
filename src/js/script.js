@@ -121,18 +121,19 @@
         event.preventDefault();
         /* [DONE] toggle active class on element of thisProduct */
         thisProduct.element.classList.toggle('active');
-        /* find all active products */
-
-        /* START LOOP: for each active product */
-
-          /* START: if the active product isn't the element of thisProduct */
-
-            /* remove class active for the active product */
-
-          /* END: if the active product isn't the element of thisProduct */
-
-        /* END LOOP: for each active product */
-
+        /* [DONE] find all active products */
+        const activeProducts = document.querySelectorAll(select.all.menuProductsActive);
+        console.log('all active products:', activeProducts);
+        /* [DONE] START LOOP: for each active product */
+        for (let activeProduct of activeProducts){
+          /* [DONE] START: if the active product isn't the element of thisProduct */
+          if (activeProduct != thisProduct.element) {
+            /* [DONE] remove class active for the active product */
+            activeProduct.classList.remove('active');
+          /* [DONE] END: if the active product isn't the element of thisProduct */
+          }
+        /* [DONE] END LOOP: for each active product */
+        }
       /* [DONE] END: click event listener to trigger */
       })
     }
