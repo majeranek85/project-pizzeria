@@ -126,10 +126,10 @@
 
       /* [DONE] find the clickable trigger (element that should react to clicking) */
       const trigger = thisProduct.accordionTrigger;
-      console.log(trigger);
+      //console.log(trigger);
       /* [DONE] START: click event listener to trigger */
       trigger.addEventListener('click', function(event){
-      console.log('clicked');
+      //console.log('clicked');
         /* [DONE] prevent default action for event */
         event.preventDefault();
         /* [DONE] toggle active class on element of thisProduct */
@@ -148,7 +148,7 @@
         /* [DONE] END LOOP: for each active product */
         }
       /* [DONE] END: click event listener to trigger */
-      })
+      });
     }
 
     initOrderForm(){
@@ -168,12 +168,42 @@
       thisProduct.cartButton.addEventListener('click', function(event){
         event.preventDefault();
         thisProduct.processOrder();
-      })
+      });
     }
 
     processOrder(){
       const thisProduct = this;
-      console.log('processOrder', thisProduct);
+      //console.log('processOrder', thisProduct);
+      const formData = utils.serializeFormToObject(thisProduct.form);
+      console.log('formData', formData);
+
+      let price = thisProduct.data.price;
+      //console.log('Price:',price);
+
+      // START LOOP: for all params elements
+      for (let paramId in thisProduct.data.params){
+        const param = thisProduct.data.params[paramId];
+        //console.log('param:', param);
+        //START LOOP: for all params options
+        for (let optionId in param.options){
+          //console.log('param options:', optionId);
+          let option = param.options[optionId];
+          console.log('option:', option);
+          // check if option is selected
+          const optionSelected = formData.hasOwnProperty(paramId) && formData[paramId].indexOf(optionId) > -1;
+          // If option is selected and is not a default option > increase price
+          if (optionSelected && !option.default) {
+            price += option.price;
+          //else If option is not selected and is a default
+          } else if (!optionSelected && option.default) {
+            price -= option.price;
+          }
+        //END LOOP: for all params options
+        }
+      // END LOOP: for all params elements
+      }
+
+      thisProduct.priceElem.innerHTML = price;
     }
   }
 
