@@ -114,6 +114,7 @@
     getElements(){
       const thisProduct = this;
 
+      thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
       thisProduct.accordionTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
       thisProduct.form = thisProduct.element.querySelector(select.menuProduct.form);
       thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
@@ -175,7 +176,7 @@
       const thisProduct = this;
       //console.log('processOrder', thisProduct);
       const formData = utils.serializeFormToObject(thisProduct.form);
-      console.log('formData', formData);
+    //  console.log('formData', formData);
 
       let price = thisProduct.data.price;
       //console.log('Price:',price);
@@ -188,9 +189,10 @@
         for (let optionId in param.options){
           //console.log('param options:', optionId);
           let option = param.options[optionId];
-          console.log('option:', option);
+          //console.log('option:', option);
           // check if option is selected
           const optionSelected = formData.hasOwnProperty(paramId) && formData[paramId].indexOf(optionId) > -1;
+          //console.log('option selected:', optionSelected);
           // If option is selected and is not a default option > increase price
           if (optionSelected && !option.default) {
             price += option.price;
@@ -198,6 +200,29 @@
           } else if (!optionSelected && option.default) {
             price -= option.price;
           }
+
+          // find all images with class ".paramId-optionId"
+          const images = thisProduct.imageWrapper.querySelectorAll('.' + paramId + '-' + optionId);
+          console.log('images:', images);
+          //START If for selected options
+          if (optionSelected) {
+            //START LOOP for every image in images
+            for (let image of images){
+              console.log('show selected image:', image);
+              //add class ".active" for image
+              image.classList.add(classNames.menuProduct.imageVisible);
+            //END LOOP for every image in images
+            }
+          //START else for not selected options
+          } else {
+            //START LOOP for every image in images
+            for (let image of images) {
+              //remove class ".active" for image
+              image.classList.remove(classNames.menuProduct.imageVisible);
+            //END LOOP for every image in images
+            }
+          }
+
         //END LOOP: for all params options
         }
       // END LOOP: for all params elements
