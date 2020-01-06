@@ -81,6 +81,7 @@
       /* TODO: Add validation */
 
       thisWidget.value = newValue;
+      thisWidget.announce();
       thisWidget.input.value = thisWidget.value;
     }
 
@@ -100,6 +101,13 @@
         thisWidget.setValue(thisWidget.value + 1);
         console.log('plus clicked');
       } );
+    }
+
+    announce(){
+      const thisWidget = this;
+
+      const event = new Event('updated');
+      thisWidget.element.dispatchEvent(event);
     }
   }
 
@@ -281,11 +289,18 @@
       // END LOOP: for all params elements
       }
 
+      /* multiply price by amount */
+      price *= thisProduct.amountWidget.value;
+
       thisProduct.priceElem.innerHTML = price;
     }
 
     initAmountWidget(){
       const thisProduct = this;
+
+      thisProduct.amountWidgetElem.addEventListener('updated', function(){
+        thisProduct.processOrder();
+      });
 
       thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElem);
     }
