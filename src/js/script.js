@@ -57,6 +57,7 @@
       const thisWidget = this;
 
       thisWidget.getElements(element);
+      thisWidget.value = settings.amountWidget.defaultValue; // przypisana domyślna wartość liczby zamówień
       thisWidget.setValue(thisWidget.input.value);
       thisWidget.initActions();
 
@@ -76,13 +77,17 @@
     setValue(value){
       const thisWidget = this;
 
-      const newValue = parseInt(value);
+      const newValue = parseInt(value); //konwertowanie argumentu 'value' na liczbę
 
       /* TODO: Add validation */
+      //Jeśli "nowa wartość liczby zamówień"  != od domyślnej(1) oraz >= od domyślnej minimalnej(1) oraz <= od domyślnej maksymalnej(9)
+      if (newValue != thisWidget.value && newValue >= settings.amountWidget.defaultMin && newValue <= settings.amountWidget.defaultMax){
 
-      thisWidget.value = newValue;
-      thisWidget.announce();
-      thisWidget.input.value = thisWidget.value;
+        thisWidget.value = newValue;
+        thisWidget.announce(); // nastąpi  uruchomienie eventu 'updated' (zaktualizowanie wartości zamówienia do nowej wart)
+      }
+
+      thisWidget.input.value = thisWidget.value; // w przeciwnym razie wartość liczby zamówień równa domyślej (1)
     }
 
     initActions(){
@@ -106,8 +111,8 @@
     announce(){
       const thisWidget = this;
 
-      const event = new Event('updated');
-      thisWidget.element.dispatchEvent(event);
+      const event = new Event('updated'); // stworzenie instancji klasy 'Event'
+      thisWidget.element.dispatchEvent(event); //przypisanie elementu na którym zostanie wywołany event
     }
   }
 
@@ -298,11 +303,12 @@
     initAmountWidget(){
       const thisProduct = this;
 
+      thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElem);
+
+      //nasłuchiwanie produktu na wydarzenie z widget'u ilości produktu (amountWidget)
       thisProduct.amountWidgetElem.addEventListener('updated', function(){
         thisProduct.processOrder();
       });
-
-      thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElem);
     }
   }
 
