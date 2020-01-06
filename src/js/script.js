@@ -52,10 +52,61 @@
     menuProduct: Handlebars.compile(document.querySelector(select.templateOf.menuProduct).innerHTML),
   };
 
+  class AmountWidget{
+    constructor(element){
+      const thisWidget = this;
+
+      thisWidget.getElements(element);
+      thisWidget.setValue(thisWidget.input.value);
+      thisWidget.initActions();
+
+      console.log('AmountWidget:', thisWidget);
+      console.log('constructor arguments:', element);
+    }
+
+    getElements(element){
+      const thisWidget = this;
+
+      thisWidget.element = element;
+      thisWidget.input = thisWidget.element.querySelector(select.widgets.amount.input);
+      thisWidget.linkDecrease = thisWidget.element.querySelector(select.widgets.amount.linkDecrease);
+      thisWidget.linkIncrease = thisWidget.element.querySelector(select.widgets.amount.linkIncrease);
+    }
+
+    setValue(value){
+      const thisWidget = this;
+
+      const newValue = parseInt(value);
+
+      /* TODO: Add validation */
+
+      thisWidget.value = newValue;
+      thisWidget.input.value = thisWidget.value;
+    }
+
+    initActions(){
+      const thisWidget = this;
+
+      thisWidget.input.addEventListener('change', function() {
+        thisWidget.setValue(thisWidget.input.value);
+      } );
+      thisWidget.linkDecrease.addEventListener('click', function(event){
+        event.preventDefault();
+        thisWidget.setValue(thisWidget.value - 1);
+        console.log('minus clicked');
+      } );
+      thisWidget.linkIncrease.addEventListener('click', function(event){
+        event.preventDefault();
+        thisWidget.setValue(thisWidget.value + 1);
+        console.log('plus clicked');
+      } );
+    }
+  }
+
   const app = {
     initMenu: function(){
       const thisApp = this;
-      //console.log('thisApp.data:', thisApp.data);
+      console.log('thisApp.data:', thisApp.data);
 
       for (let productData in thisApp.data.products){
         new Product (productData, thisApp.data.products[productData]);
@@ -92,6 +143,7 @@
       thisProduct.getElements();
       thisProduct.initAccordion();
       thisProduct.initOrderForm();
+      thisProduct.initAmountWidget();
       thisProduct.processOrder();
 
       //console.log('new Product:', thisProduct);
@@ -114,6 +166,7 @@
     getElements(){
       const thisProduct = this;
 
+      thisProduct.amountWidgetElem = thisProduct.element.querySelector(select.menuProduct.amountWidget);
       thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
       thisProduct.accordionTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
       thisProduct.form = thisProduct.element.querySelector(select.menuProduct.form);
@@ -137,7 +190,7 @@
         thisProduct.element.classList.toggle('active');
         /* [DONE] find all active products */
         const activeProducts = document.querySelectorAll(select.all.menuProductsActive);
-        console.log('all active products:', activeProducts);
+        //console.log('all active products:', activeProducts);
         /* [DONE] START LOOP: for each active product */
         for (let activeProduct of activeProducts){
           /* [DONE] START: if the active product isn't the element of thisProduct */
@@ -176,7 +229,7 @@
       const thisProduct = this;
       //console.log('processOrder', thisProduct);
       const formData = utils.serializeFormToObject(thisProduct.form);
-    //  console.log('formData', formData);
+      //console.log('formData', formData);
 
       let price = thisProduct.data.price;
       //console.log('Price:',price);
@@ -203,12 +256,12 @@
 
           // find all images with class ".paramId-optionId"
           const images = thisProduct.imageWrapper.querySelectorAll('.' + paramId + '-' + optionId);
-          console.log('images:', images);
+          //console.log('images:', images);
           //START If for selected options
           if (optionSelected) {
             //START LOOP for every image in images
             for (let image of images){
-              console.log('show selected image:', image);
+              //console.log('show selected image:', image);
               //add class ".active" for image
               image.classList.add(classNames.menuProduct.imageVisible);
             //END LOOP for every image in images
@@ -229,6 +282,12 @@
       }
 
       thisProduct.priceElem.innerHTML = price;
+    }
+
+    initAmountWidget(){
+      const thisProduct = this;
+
+      thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElem);
     }
   }
 
