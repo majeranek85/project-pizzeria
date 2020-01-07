@@ -34,3 +34,12 @@
   }
 
 }
+
+/* Media */
+
+@media (max-width: 767px) {
+  .logo {
+    display: block;
+    text-align: center;
+  }
+}
