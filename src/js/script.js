@@ -78,149 +78,6 @@
     cartProduct: Handlebars.compile(document.querySelector(select.templateOf.cartProduct).innerHTML),
   };
 
-  class AmountWidget{
-    constructor(element){
-      const thisWidget = this;
-
-      thisWidget.getElements(element);
-      thisWidget.value = settings.amountWidget.defaultValue; // przypisana domyślna wartość liczby zamówień
-      thisWidget.setValue(thisWidget.input.value);
-      thisWidget.initActions();
-
-      //console.log('AmountWidget:', thisWidget);
-      //console.log('constructor arguments:', element);
-    }
-
-    getElements(element){
-      const thisWidget = this;
-
-      thisWidget.element = element;
-      thisWidget.input = thisWidget.element.querySelector(select.widgets.amount.input);
-      thisWidget.linkDecrease = thisWidget.element.querySelector(select.widgets.amount.linkDecrease);
-      thisWidget.linkIncrease = thisWidget.element.querySelector(select.widgets.amount.linkIncrease);
-    }
-
-    setValue(value){
-      const thisWidget = this;
-
-      const newValue = parseInt(value); //konwertowanie argumentu 'value' na liczbę
-
-      /* TODO: Add validation */
-      //Jeśli "nowa wartość liczby zamówień"  != od domyślnej(1) oraz >= od domyślnej minimalnej(1) oraz <= od domyślnej maksymalnej(9)
-      if (newValue != thisWidget.value && newValue >= settings.amountWidget.defaultMin && newValue <= settings.amountWidget.defaultMax){
-
-        thisWidget.value = newValue;
-        thisWidget.announce(); // nastąpi  uruchomienie eventu 'updated' (zaktualizowanie wartości zamówienia do nowej wart)
-      }
-
-      thisWidget.input.value = thisWidget.value; // w przeciwnym razie wartość liczby zamówień równa domyślej (1)
-    }
-
-    initActions(){
-      const thisWidget = this;
-
-      thisWidget.input.addEventListener('change', function() {
-        thisWidget.setValue(thisWidget.input.value);
-      } );
-      thisWidget.linkDecrease.addEventListener('click', function(event){
-        event.preventDefault();
-        thisWidget.setValue(thisWidget.value - 1);
-        console.log('minus clicked');
-      } );
-      thisWidget.linkIncrease.addEventListener('click', function(event){
-        event.preventDefault();
-        thisWidget.setValue(thisWidget.value + 1);
-        console.log('plus clicked');
-      } );
-    }
-
-    announce(){
-      const thisWidget = this;
-
-      const event = new Event('updated'); // stworzenie instancji klasy 'Event'
-      thisWidget.element.dispatchEvent(event); //przypisanie elementu na którym zostanie wywołany event
-    }
-  }
-
-  const app = {
-
-    initCart: function(){
-
-      const cartElem = document.querySelector(select.containerOf.cart);
-      this.cart = new Cart(cartElem);
-    },
-
-    initMenu: function(){
-      const thisApp = this;
-      //console.log('thisApp.data:', thisApp.data);
-
-      for (let productData in thisApp.data.products){
-        new Product (productData, thisApp.data.products[productData]);
-      }
-    },
-
-    initData: function(){
-      //const thisApp = this;
-
-      this.data = dataSource;
-    },
-
-    init: function(){
-      const thisApp = this;
-      //console.log('*** App starting ***');
-      //console.log('thisApp:', thisApp);
-      //console.log('classNames:', classNames);
-      //console.log('settings:', settings);
-      //console.log('templates:', templates);
-
-      thisApp.initData();
-      thisApp.initMenu();
-      thisApp.initCart();
-    },
-  };
-
-  class Cart{
-    constructor(element){
-      const thisCart = this;
-
-      thisCart.products = []; //tablica do przechowywania produktów w koszyku
-
-      thisCart.getElements(element);
-      thisCart.initActions();
-
-      console.log('new Cart', thisCart);
-    }
-
-    getElements(element){
-      const thisCart = this;
-
-      thisCart.dom = {}; //obiekt przechowujący elementy DOM w komponencie Cart
-
-      thisCart.dom.wrapper = element;
-      thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);
-      thisCart.dom.productList = thisCart.dom.wrapper.querySelector(select.cart.productList);
-    }
-
-    initActions(){
-      const thisCart = this;
-
-      thisCart.dom.toggleTrigger.addEventListener('click', function(){
-        thisCart.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
-      });
-    }
-
-    add(menuProduct){
-      const thisCart = this;
-
-      const generatedHTML = templates.cartProduct(menuProduct);
-      //console.log('generatedHTML:', generatedHTML);
-      const generateDOM = utils.createDOMFromHTML(generatedHTML);
-      //console.log('generateDOM:', generateDOM);
-      thisCart.dom.productList.appendChild(generateDOM);
-      //console.log('adding product:', menuProduct);
-    }
-  }
-
   class Product{
     constructor(id, data){
       const thisProduct = this;
@@ -409,6 +266,161 @@
       app.cart.add(thisProduct);
     }
   }
+
+  class AmountWidget{
+    constructor(element){
+      const thisWidget = this;
+
+      thisWidget.getElements(element);
+      thisWidget.value = settings.amountWidget.defaultValue; // przypisana domyślna wartość liczby zamówień
+      thisWidget.setValue(thisWidget.input.value);
+      thisWidget.initActions();
+
+      //console.log('AmountWidget:', thisWidget);
+      //console.log('constructor arguments:', element);
+    }
+
+    getElements(element){
+      const thisWidget = this;
+
+      thisWidget.element = element;
+      thisWidget.input = thisWidget.element.querySelector(select.widgets.amount.input);
+      thisWidget.linkDecrease = thisWidget.element.querySelector(select.widgets.amount.linkDecrease);
+      thisWidget.linkIncrease = thisWidget.element.querySelector(select.widgets.amount.linkIncrease);
+    }
+
+    setValue(value){
+      const thisWidget = this;
+
+      const newValue = parseInt(value); //konwertowanie argumentu 'value' na liczbę
+
+      /* TODO: Add validation */
+      //Jeśli "nowa wartość liczby zamówień"  != od domyślnej(1) oraz >= od domyślnej minimalnej(1) oraz <= od domyślnej maksymalnej(9)
+      if (newValue != thisWidget.value && newValue >= settings.amountWidget.defaultMin && newValue <= settings.amountWidget.defaultMax){
+
+        thisWidget.value = newValue;
+        thisWidget.announce(); // nastąpi  uruchomienie eventu 'updated' (zaktualizowanie wartości zamówienia do nowej wart)
+      }
+
+      thisWidget.input.value = thisWidget.value; // w przeciwnym razie wartość liczby zamówień równa domyślej (1)
+    }
+
+    initActions(){
+      const thisWidget = this;
+
+      thisWidget.input.addEventListener('change', function() {
+        thisWidget.setValue(thisWidget.input.value);
+      } );
+      thisWidget.linkDecrease.addEventListener('click', function(event){
+        event.preventDefault();
+        thisWidget.setValue(thisWidget.value - 1);
+        console.log('minus clicked');
+      } );
+      thisWidget.linkIncrease.addEventListener('click', function(event){
+        event.preventDefault();
+        thisWidget.setValue(thisWidget.value + 1);
+        console.log('plus clicked');
+      } );
+    }
+
+    announce(){
+      const thisWidget = this;
+
+      const event = new Event('updated'); // stworzenie instancji klasy 'Event'
+      thisWidget.element.dispatchEvent(event); //przypisanie elementu na którym zostanie wywołany event
+    }
+  }
+
+  class Cart{
+    constructor(element){
+      const thisCart = this;
+
+      thisCart.products = []; //tablica do przechowywania produktów w koszyku
+
+      thisCart.getElements(element);
+      thisCart.initActions();
+
+      console.log('new Cart', thisCart);
+    }
+
+    getElements(element){
+      const thisCart = this;
+
+      thisCart.dom = {}; //obiekt przechowujący elementy DOM w komponencie Cart
+
+      thisCart.dom.wrapper = element;
+      thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);
+      thisCart.dom.productList = thisCart.dom.wrapper.querySelector(select.cart.productList);
+    }
+
+    initActions(){
+      const thisCart = this;
+
+      thisCart.dom.toggleTrigger.addEventListener('click', function(){
+        thisCart.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
+      });
+    }
+
+    add(menuProduct){
+      const thisCart = this;
+
+      const generatedHTML = templates.cartProduct(menuProduct);
+      //console.log('generatedHTML:', generatedHTML);
+      const generateDOM = utils.createDOMFromHTML(generatedHTML);
+      //console.log('generateDOM:', generateDOM);
+      thisCart.dom.productList.appendChild(generateDOM);
+      //console.log('adding product:', menuProduct);
+      thisCart.products.push(menuProduct);
+      console.log('thisCart.products', thisCart.products);
+    }
+  }
+
+  class CartProduct{
+    constructor(menuProduct, element){
+       thisCartProduct = this;
+
+      // thisCartProduct.id = menuProduct.id
+
+       console.log('thisCartProduct', thisCartProduct);
+    }
+  }
+
+  const app = {
+
+    initMenu: function(){
+      const thisApp = this;
+      //console.log('thisApp.data:', thisApp.data);
+
+      for (let productData in thisApp.data.products){
+        new Product (productData, thisApp.data.products[productData]);
+      }
+    },
+
+    initCart: function(){
+      const cartElem = document.querySelector(select.containerOf.cart);
+
+      this.cart = new Cart(cartElem);
+    },
+
+    initData: function(){
+      //const thisApp = this;
+
+      this.data = dataSource;
+    },
+
+    init: function(){
+      const thisApp = this;
+      //console.log('*** App starting ***');
+      //console.log('thisApp:', thisApp);
+      //console.log('classNames:', classNames);
+      //console.log('settings:', settings);
+      //console.log('templates:', templates);
+
+      thisApp.initData();
+      thisApp.initMenu();
+      thisApp.initCart();
+    },
+  };
 
   app.init();
 }
