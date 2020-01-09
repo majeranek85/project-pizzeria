@@ -370,7 +370,7 @@
       //console.log('generateDOM:', generateDOM);
       thisCart.dom.productList.appendChild(generateDOM);
       //console.log('adding product:', menuProduct);
-      thisCart.products.push(new CartProduct(menuProduct));
+      thisCart.products.push(new CartProduct(menuProduct, generateDOM));
       console.log('thisCart.products', thisCart.products);
     }
   }
@@ -384,11 +384,11 @@
        thisCartProduct.price = menuProduct.price;
        thisCartProduct.priceSingle = menuProduct.priceSingle;
        thisCartProduct.amount = menuProduct.amount;
-       thisCartProduct.params = JSON.prase(JSON.stringify(menuProduct.params)); //skopiuje nam obiekty na wszystkich poziomach
+       thisCartProduct.params = JSON.parse(JSON.stringify(menuProduct.params)); //skopiuje nam obiekty na wszystkich poziomach
 
        thisCartProduct.getElements(element);
 
-       console.log('menuProduct', menuProduct);
+       //console.log('menuProduct', menuProduct);
        console.log('new CartProduct', thisCartProduct);
     }
 
