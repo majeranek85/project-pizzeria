@@ -314,19 +314,21 @@
       thisWidget.linkDecrease.addEventListener('click', function(event){
         event.preventDefault();
         thisWidget.setValue(thisWidget.value - 1);
-        console.log('minus clicked');
+        //console.log('minus clicked');
       } );
       thisWidget.linkIncrease.addEventListener('click', function(event){
         event.preventDefault();
         thisWidget.setValue(thisWidget.value + 1);
-        console.log('plus clicked');
+        //console.log('plus clicked');
       } );
     }
 
     announce(){
       const thisWidget = this;
 
-      const event = new Event('updated'); // stworzenie instancji klasy 'Event'
+      const event = new CustomEvent('updated', {
+        bubbles: true
+      }); // stworzenie instancji klasy 'Event'
       thisWidget.element.dispatchEvent(event); //przypisanie elementu na którym zostanie wywołany event
     }
   }
@@ -365,6 +367,10 @@
 
       thisCart.dom.toggleTrigger.addEventListener('click', function(){
         thisCart.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
+      });
+
+      thisCart.dom.productList.addEventListener('updated', function(){
+        thisCart.update();
       });
     }
 
