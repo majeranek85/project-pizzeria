@@ -377,19 +377,20 @@
 
   class CartProduct{
     constructor(menuProduct, element){
-       const thisCartProduct = this;
+      const thisCartProduct = this;
 
-       thisCartProduct.id = menuProduct.id;
-       thisCartProduct.name = menuProduct.name;
-       thisCartProduct.price = menuProduct.price;
-       thisCartProduct.priceSingle = menuProduct.priceSingle;
-       thisCartProduct.amount = menuProduct.amount;
-       thisCartProduct.params = JSON.parse(JSON.stringify(menuProduct.params)); //skopiuje nam obiekty na wszystkich poziomach
+      thisCartProduct.id = menuProduct.id;
+      thisCartProduct.name = menuProduct.name;
+      thisCartProduct.price = menuProduct.price;
+      thisCartProduct.priceSingle = menuProduct.priceSingle;
+      thisCartProduct.amount = menuProduct.amount;
+      thisCartProduct.params = JSON.parse(JSON.stringify(menuProduct.params)); //skopiuje nam obiekty na wszystkich poziomach
 
-       thisCartProduct.getElements(element);
+      thisCartProduct.getElements(element);
+      thisCartProduct.initAmountWidget();
 
-       //console.log('menuProduct', menuProduct);
-       console.log('new CartProduct', thisCartProduct);
+      //console.log('menuProduct', menuProduct);
+      console.log('new CartProduct', thisCartProduct);
     }
 
     getElements(element){
@@ -403,6 +404,19 @@
       thisCartProduct.dom.edit = thisCartProduct.dom.wrapper.querySelector(select.cartProduct.edit);
       thisCartProduct.dom.remove = thisCartProduct.dom.wrapper.querySelector(select.cartProduct.remove);
 
+    }
+
+    initAmountWidget(){
+      const thisCartProduct = this;
+
+      thisCartProduct.amountWidget = new AmountWidget(thisCartProduct.dom.amountWidget);
+
+      //nasłuchiwanie produktu na wydarzenie z widget'u ilości produktu (amountWidget)
+      thisCartProduct.dom.amountWidget.addEventListener('updated', function(){
+        thisCartProduct.amount = thisCartProduct.amountWidget.value;
+        thisCartProduct.price = thisCartProduct.priceSingle * thisCartProduct.amount;
+        thisCartProduct.dom.price.innerHTML = thisCartProduct.price;
+      });
     }
   }
 
