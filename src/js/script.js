@@ -420,12 +420,13 @@
       const thisCart = this;
 
       const cartProductElem = event.detail.cartProduct
-      //console.log('thisCart.products',thisCart.products);
+
       const index = thisCart.products.indexOf(cartProductElem);
       //console.log('index of cartProductElem', index);
-      const deletedElem = thisCart.products.splice(index, 1);
-      //console.log('deleted elem', deletedElem);
+      thisCart.products.splice(index, 1);
+
       cartProductElem.dom.wrapper.remove();
+
       thisCart.update();
     }
   }
