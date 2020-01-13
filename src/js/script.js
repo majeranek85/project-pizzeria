@@ -348,6 +348,7 @@
       thisCart.getElements(element);
       thisCart.initActions();
 
+      //console.log('thisCart.products', thisCart.products);
       //console.log('new Cart', thisCart);
     }
 
@@ -359,6 +360,10 @@
       thisCart.dom.wrapper = element;
       thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);
       thisCart.dom.productList = thisCart.dom.wrapper.querySelector(select.cart.productList);
+      thisCart.dom.form = thisCart.dom.wrapper.querySelector(select.cart.form);
+      thisCart.dom.formSubmit = thisCart.dom.wrapper.querySelector(select.cart.formSubmit);
+      thisCart.dom.phone = thisCart.dom.wrapper.querySelector(select.cart.phone);
+      thisCart.dom.address = thisCart.dom.wrapper.querySelector(select.cart.address);
 
       thisCart.renderTotalsKeys = ['totalNumber', 'totalPrice', 'subtotalPrice', 'deliveryFee'];
 
@@ -381,6 +386,11 @@
       thisCart.dom.productList.addEventListener('remove', function(){
         thisCart.remove();
       });
+
+      thisCart.dom.form.addEventListener('submit', function(){
+        event.preventDefault();
+        thisCart.sendOrder();
+      });
     }
 
     add(menuProduct){
@@ -393,7 +403,7 @@
       thisCart.dom.productList.appendChild(generateDOM);
       //console.log('adding product:', menuProduct);
       thisCart.products.push(new CartProduct(menuProduct, generateDOM));
-      //console.log('thisCart.products', thisCart.products);
+      console.log('thisCart.products', thisCart.products);
       thisCart.update();
     }
 
@@ -410,9 +420,9 @@
 
       thisCart.totalPrice = thisCart.subtotalPrice + thisCart.deliveryFee;
 
-      console.log('thisCart.totalNumber', thisCart.totalNumber);
-      console.log('thisCart.subtotalPrice', thisCart.subtotalPrice);
-      console.log('thisCart.totalPrice', thisCart.totalPrice);
+      //console.log('thisCart.totalNumber', thisCart.totalNumber);
+      //console.log('thisCart.subtotalPrice', thisCart.subtotalPrice);
+      //console.log('thisCart.totalPrice', thisCart.totalPrice);
 
       for (let key of thisCart.renderTotalsKeys){
         for (let elem of thisCart.dom[key]){
@@ -432,6 +442,42 @@
 
       thisCart.update();
     }
+
+    sendOrder(){
+      const thisCart = this;
+
+      const url = settings.db.url + '/' + settings.db.order; //adres endpointu
+
+      //stała zawierająca dane zamówienia, które mają zostać wysłane na serwer
+      const payload = {
+        address: thisCart.dom.address.value,
+        phone: thisCart.dom.phone.value,
+        totalNumber: thisCart.totalNumber,
+        subtotalPrice: thisCart.subtotalPrice,
+        deliveryFee: thisCart.deliveryFee,
+        totalPrice: thisCart.totalPrice,
+        products: [],
+      }
+
+      for (let product of thisCart.products){
+        payload.products.push(product.getData()); //dodawanie danych do tablicy payload.products
+      }
+
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      };
+
+      fetch(url, options) //wysyłamy zapytanie pod adres endpointu 'order'
+      .then(function(response){
+        return response.json(); //otrzymaną odp konwerujemy z JSON na tablicę
+      }).then(function(parsedResponse){
+        console.log('parsedResponse', parsedResponse); //wyświetlamy przekonwertowaną odp
+      });
+    };
   }
 
   class CartProduct{
@@ -509,6 +555,21 @@
 
 
     }
+
+    getData(){
+
+      const thisCartProduct = this;
+
+      const productData = {
+        id: thisCartProduct.id,
+        amount: thisCartProduct.amount,
+        price: thisCartProduct.price,
+        priceSingle: thisCartProduct.priceSingle,
+        params: thisCartProduct.params,
+      }
+      return productData;
+      //console.log('productData', productData);
+    };
   }
 
   const app = {
@@ -534,7 +595,7 @@
       thisApp.data = {};
       const url = settings.db.url + '/' + settings.db.product;
 
-      fetch(url) //wysyłamy zapytanie pod adress endpointu 'product'
+      fetch(url) //wysyłamy zapytanie pod adres endpointu 'product'
         .then(function(rawResponse){
           return rawResponse.json(); //otrzymaną odp konwerujemy z JSON na tablicę
         })
