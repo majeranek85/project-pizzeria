@@ -518,7 +518,7 @@
       //console.log('thisApp.data:', thisApp.data);
 
       for (let productData in thisApp.data.products){
-        new Product (productData, thisApp.data.products[productData]);
+        new Product (thisApp.data.products[productData].id, thisApp.data.products[productData]);
       }
     },
 
@@ -529,9 +529,25 @@
     },
 
     initData: function(){
-      //const thisApp = this;
+      const thisApp = this;
 
-      this.data = dataSource;
+      thisApp.data = {};
+      const url = settings.db.url + '/' + settings.db.product;
+
+      fetch(url) //wysyłamy zapytanie pod adress endpointu 'product'
+        .then(function(rawResponse){
+          return rawResponse.json(); //otrzymaną odp konwerujemy z JSON na tablicę
+        })
+        .then(function(parsedResponse){
+          console.log('parsedResponse', parsedResponse); //wyświetlamy przekonwertowaną odp
+
+          /* save parsedResponse as thisApp.data.products */
+          thisApp.data.products = parsedResponse;
+          /*execute initMenu method */
+          thisApp.initMenu();
+        });
+
+      console.log('thisApp.data', JSON.stringify(thisApp.data));
     },
 
     init: function(){
@@ -543,7 +559,6 @@
       //console.log('templates:', templates);
 
       thisApp.initData();
-      thisApp.initMenu();
       thisApp.initCart();
     },
   };
