@@ -419,13 +419,11 @@
     remove(cartProduct){
       const thisCart = this;
 
-      const cartProductElem = event.detail.cartProduct
-
-      const index = thisCart.products.indexOf(cartProductElem);
+      const index = thisCart.products.indexOf(cartProduct);
       //console.log('index of cartProductElem', index);
       thisCart.products.splice(index, 1);
 
-      cartProductElem.dom.wrapper.remove();
+      event.detail.cartProduct.dom.wrapper.remove();
 
       thisCart.update();
     }
