@@ -403,7 +403,7 @@
       thisCart.dom.productList.appendChild(generateDOM);
       //console.log('adding product:', menuProduct);
       thisCart.products.push(new CartProduct(menuProduct, generateDOM));
-      console.log('thisCart.products', thisCart.products);
+      //console.log('thisCart.products', thisCart.products);
       thisCart.update();
     }
 
@@ -457,7 +457,7 @@
         deliveryFee: thisCart.deliveryFee,
         totalPrice: thisCart.totalPrice,
         products: [],
-      }
+      };
 
       for (let product of thisCart.products){
         payload.products.push(product.getData()); //dodawanie danych do tablicy payload.products
@@ -472,12 +472,12 @@
       };
 
       fetch(url, options) //wysyłamy zapytanie pod adres endpointu 'order'
-      .then(function(response){
-        return response.json(); //otrzymaną odp konwerujemy z JSON na tablicę
-      }).then(function(parsedResponse){
-        console.log('parsedResponse', parsedResponse); //wyświetlamy przekonwertowaną odp
-      });
-    };
+        .then(function(response){
+          return response.json(); //otrzymaną odp konwerujemy z JSON na tablicę
+        }).then(function(parsedResponse){
+          console.log('parsedResponse', parsedResponse); //wyświetlamy przekonwertowaną odp
+        });
+    }
   }
 
   class CartProduct{
@@ -566,10 +566,10 @@
         price: thisCartProduct.price,
         priceSingle: thisCartProduct.priceSingle,
         params: thisCartProduct.params,
-      }
+      };
       return productData;
       //console.log('productData', productData);
-    };
+    }
   }
 
   const app = {
