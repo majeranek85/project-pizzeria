@@ -1,59 +1,53 @@
-/* global Handlebars, utils, dataSource */ // eslint-disable-line no-unused-vars
+const app = {
 
-{
-  'use strict';
+  initMenu: function(){
+    const thisApp = this;
+    //console.log('thisApp.data:', thisApp.data);
 
-  const app = {
+    for (let productData in thisApp.data.products){
+      new Product (thisApp.data.products[productData].id, thisApp.data.products[productData]);
+    }
+  },
 
-    initMenu: function(){
-      const thisApp = this;
-      //console.log('thisApp.data:', thisApp.data);
+  initCart: function(){
+    const cartElem = document.querySelector(select.containerOf.cart);
 
-      for (let productData in thisApp.data.products){
-        new Product (thisApp.data.products[productData].id, thisApp.data.products[productData]);
-      }
-    },
+    this.cart = new Cart(cartElem);
+  },
 
-    initCart: function(){
-      const cartElem = document.querySelector(select.containerOf.cart);
+  initData: function(){
+    const thisApp = this;
 
-      this.cart = new Cart(cartElem);
-    },
+    thisApp.data = {};
+    const url = settings.db.url + '/' + settings.db.product;
 
-    initData: function(){
-      const thisApp = this;
+    fetch(url) //wysyłamy zapytanie pod adres endpointu 'product'
+      .then(function(rawResponse){
+        return rawResponse.json(); //otrzymaną odp konwerujemy z JSON na tablicę
+      })
+      .then(function(parsedResponse){
+        console.log('parsedResponse', parsedResponse); //wyświetlamy przekonwertowaną odp
 
-      thisApp.data = {};
-      const url = settings.db.url + '/' + settings.db.product;
+        /* save parsedResponse as thisApp.data.products */
+        thisApp.data.products = parsedResponse;
+        /*execute initMenu method */
+        thisApp.initMenu();
+      });
 
-      fetch(url) //wysyłamy zapytanie pod adres endpointu 'product'
-        .then(function(rawResponse){
-          return rawResponse.json(); //otrzymaną odp konwerujemy z JSON na tablicę
-        })
-        .then(function(parsedResponse){
-          console.log('parsedResponse', parsedResponse); //wyświetlamy przekonwertowaną odp
+    console.log('thisApp.data', JSON.stringify(thisApp.data));
+  },
 
-          /* save parsedResponse as thisApp.data.products */
-          thisApp.data.products = parsedResponse;
-          /*execute initMenu method */
-          thisApp.initMenu();
-        });
+  init: function(){
+    const thisApp = this;
+    //console.log('*** App starting ***');
+    //console.log('thisApp:', thisApp);
+    //console.log('classNames:', classNames);
+    //console.log('settings:', settings);
+    //console.log('templates:', templates);
 
-      console.log('thisApp.data', JSON.stringify(thisApp.data));
-    },
+    thisApp.initData();
+    thisApp.initCart();
+  },
+};
 
-    init: function(){
-      const thisApp = this;
-      //console.log('*** App starting ***');
-      //console.log('thisApp:', thisApp);
-      //console.log('classNames:', classNames);
-      //console.log('settings:', settings);
-      //console.log('templates:', templates);
-
-      thisApp.initData();
-      thisApp.initCart();
-    },
-  };
-
-  app.init();
-}
+app.init();
