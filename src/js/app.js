@@ -1,9 +1,19 @@
 import {settings, select, classNames, templates} from './settings.js';
 import Product from './components/Product.js';
 import Cart from './components/Cart.js';
+import Booking from './components/Booking.js';
 
 
 const app = {
+  initBooking: function(){
+    const thisApp = this;
+
+    /* find wrapper of booking page*/
+    const bookingElement = document.querySelector(select.containerOf.booking);
+    /* create new instance for Booking class*/
+    new Booking(bookingElement);
+  },
+
   initPages: function(){
     const thisApp = this;
 
@@ -90,7 +100,7 @@ const app = {
         return rawResponse.json(); //otrzymaną odp konwerujemy z JSON na tablicę
       })
       .then(function(parsedResponse){
-        console.log('parsedResponse', parsedResponse); //wyświetlamy przekonwertowaną odp
+        //console.log('parsedResponse', parsedResponse); //wyświetlamy przekonwertowaną odp
 
         /* save parsedResponse as thisApp.data.products */
         thisApp.data.products = parsedResponse;
@@ -98,7 +108,7 @@ const app = {
         thisApp.initMenu();
       });
 
-    console.log('thisApp.data', JSON.stringify(thisApp.data));
+    //console.log('thisApp.data', JSON.stringify(thisApp.data));
   },
 
   init: function(){
@@ -110,6 +120,7 @@ const app = {
     //console.log('templates:', templates);
 
     thisApp.initPages();
+    thisApp.initBooking();
 
     thisApp.initData();
     thisApp.initCart();
