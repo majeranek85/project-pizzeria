@@ -1,4 +1,4 @@
-import {settings, select, classNames, templates} from './settings.js';
+import {settings, select, classNames} from './settings.js';
 import Product from './components/Product.js';
 import Cart from './components/Cart.js';
 import Booking from './components/Booking.js';
@@ -6,8 +6,6 @@ import Booking from './components/Booking.js';
 
 const app = {
   initBooking: function(){
-    const thisApp = this;
-
     /* find wrapper of booking page*/
     const bookingElement = document.querySelector(select.containerOf.booking);
     /* create new instance for Booking class*/
@@ -51,19 +49,19 @@ const app = {
   },
 
   activatePage: function(pageId) {
-      const thisApp = this;
+    const thisApp = this;
 
-      /* add class "active" to matching pages, remove from non-matching */
-      for (let page of thisApp.pages){
-        page.classList.toggle(classNames.pages.active, page.id == pageId);
-      };
-      /* add class "active" to matching links, remove from non-matching */
-      for (let link of thisApp.navLinks){
-        link.classList.toggle(
-          classNames.nav.active,
-          link.getAttribute('href') == '#' + pageId
-        );
-      };
+    /* add class "active" to matching pages, remove from non-matching */
+    for (let page of thisApp.pages){
+      page.classList.toggle(classNames.pages.active, page.id == pageId);
+    }
+    /* add class "active" to matching links, remove from non-matching */
+    for (let link of thisApp.navLinks){
+      link.classList.toggle(
+        classNames.nav.active,
+        link.getAttribute('href') == '#' + pageId
+      );
+    }
   },
 
   initMenu: function(){
