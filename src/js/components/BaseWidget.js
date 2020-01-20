@@ -5,20 +5,32 @@ class BaseWidget{
     thisWidget.dom = {};
     thisWidget.dom.wrapper = wrapperElement;
 
-    thisWidget.value = initialValue;  
+    thisWidget.correctValue = initialValue;  
+  }
+
+  get value(){
+    const thisWidget = this;
+
+    return thisWidget.correctValue;
+  }
+
+  set value(value){
+    const thisWidget = this;
+
+    const newValue = thisWidget.parseValue(value); 
+
+    if (newValue != thisWidget.correctValue && thisWidget.isValid(newValue)){
+      thisWidget.correctValue = newValue;
+      thisWidget.announce();
+    }
+
+    thisWidget.renderValue();
   }
 
   setValue(value){
     const thisWidget = this;
 
-    const newValue = thisWidget.parseValue(value); 
-
-    if (newValue != thisWidget.value && thisWidget.isValid(newValue)){
-      thisWidget.value = newValue;
-      thisWidget.announce();
-    }
-
-    thisWidget.renderValue();
+    thisWidget.value = value;
   }
 
   parseValue(value){ //konwertowanie argumentu 'value' na liczbę
@@ -44,6 +56,7 @@ class BaseWidget{
 
     thisWidget.dom.wrapper.dispatchEvent(event); //przypisanie elementu na którym zostanie wywołany event
   }
+
 }
 
 export default BaseWidget;
