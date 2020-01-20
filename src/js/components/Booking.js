@@ -28,11 +28,11 @@ class Booking {
 
     /* add thisBooking.dom.peopleAmount property with element found in wrapper with selector select.booking.peopleAmount*/
     thisBooking.dom.peopleAmount = element.querySelector(select.booking.peopleAmount);
-    console.log('thisBooking.dom.peopleAmount:',thisBooking.dom.peopleAmount);
+    //console.log('thisBooking.dom.peopleAmount:',thisBooking.dom.peopleAmount);
 
     /* add thisBooking.dom.hoursAmount property with element found in wrapper with selector select.booking.hoursAmount*/
     thisBooking.dom.hoursAmount = element.querySelector(select.booking.hoursAmount);
-    console.log('thisBooking.dom.hoursAmount:',thisBooking.dom.hoursAmount);
+    //console.log('thisBooking.dom.hoursAmount:',thisBooking.dom.hoursAmount);
   }
 
   initWidgets(){

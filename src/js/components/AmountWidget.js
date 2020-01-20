@@ -7,10 +7,10 @@ class AmountWidget extends BaseWidget{
 
     const thisWidget = this;
 
-    thisWidget.setValue(thisWidget.dom.input.value);
+    thisWidget.getElements(element);
     thisWidget.initActions();
 
-    //console.log('AmountWidget:', thisWidget);
+    console.log('AmountWidget:', thisWidget);
     //console.log('constructor arguments:', element);
   }
 
@@ -22,22 +22,17 @@ class AmountWidget extends BaseWidget{
     thisWidget.dom.linkIncrease = thisWidget.dom.wrapper.querySelector(select.widgets.amount.linkIncrease);
   }
 
-  setValue(value){
-    const thisWidget = this;
-
-    const newValue = parseInt(value); //konwertowanie argumentu 'value' na liczbę
-
-    /* TODO: Add validation */
-    //Jeśli "nowa wartość liczby zamówień"  != od domyślnej(1) oraz >= od domyślnej minimalnej(1) oraz <= od domyślnej maksymalnej(9)
-    if (newValue != thisWidget.value && newValue >= settings.amountWidget.defaultMin && newValue <= settings.amountWidget.defaultMax){
-
-      thisWidget.value = newValue;
-      thisWidget.announce(); // nastąpi  uruchomienie eventu 'updated' (zaktualizowanie wartości zamówienia do nowej wart)
-    }
-
-    thisWidget.dom.input.value = thisWidget.value; // w przeciwnym razie wartość liczby zamówień równa domyślej (1)
+  isValid(value){
+    return !isNaN(value) //spr czy wartość nie jest liczbą
+      && value >= settings.amountWidget.defaultMin
+      && value <= settings.amountWidget.defaultMax;
   }
 
+  renderValue(){
+    const thisWidget = this;
+
+    thisWidget.dom.input.value = thisWidget.value;
+  }
 
   initActions(){
     const thisWidget = this;
@@ -57,14 +52,6 @@ class AmountWidget extends BaseWidget{
     } );
   }
 
-  announce(){
-    const thisWidget = this;
-
-    const event = new CustomEvent('updated', {
-      bubbles: true
-    }); // stworzenie instancji klasy 'Event'
-    thisWidget.dom.wrapper.dispatchEvent(event); //przypisanie elementu na którym zostanie wywołany event
-  }
 }
 
 export default AmountWidget;
