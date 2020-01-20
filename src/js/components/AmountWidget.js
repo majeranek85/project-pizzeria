@@ -1,25 +1,25 @@
 import {settings, select} from '../settings.js';
+import BaseWidget from './BaseWidget.js';
 
-class AmountWidget{
+class AmountWidget extends BaseWidget{
   constructor(element){
+    super(element, settings.amountWidget.defaultValue);
+
     const thisWidget = this;
 
-    thisWidget.getElements(element);
-    thisWidget.value = settings.amountWidget.defaultValue; // przypisana domyślna wartość liczby zamówień
-    thisWidget.setValue(thisWidget.input.value);
+    thisWidget.setValue(thisWidget.dom.input.value);
     thisWidget.initActions();
 
     //console.log('AmountWidget:', thisWidget);
     //console.log('constructor arguments:', element);
   }
 
-  getElements(element){
+  getElements(){
     const thisWidget = this;
 
-    thisWidget.element = element;
-    thisWidget.input = thisWidget.element.querySelector(select.widgets.amount.input);
-    thisWidget.linkDecrease = thisWidget.element.querySelector(select.widgets.amount.linkDecrease);
-    thisWidget.linkIncrease = thisWidget.element.querySelector(select.widgets.amount.linkIncrease);
+    thisWidget.dom.input = thisWidget.dom.wrapper.querySelector(select.widgets.amount.input);
+    thisWidget.dom.linkDecrease = thisWidget.dom.wrapper.querySelector(select.widgets.amount.linkDecrease);
+    thisWidget.dom.linkIncrease = thisWidget.dom.wrapper.querySelector(select.widgets.amount.linkIncrease);
   }
 
   setValue(value){
@@ -35,21 +35,22 @@ class AmountWidget{
       thisWidget.announce(); // nastąpi  uruchomienie eventu 'updated' (zaktualizowanie wartości zamówienia do nowej wart)
     }
 
-    thisWidget.input.value = thisWidget.value; // w przeciwnym razie wartość liczby zamówień równa domyślej (1)
+    thisWidget.dom.input.value = thisWidget.value; // w przeciwnym razie wartość liczby zamówień równa domyślej (1)
   }
+
 
   initActions(){
     const thisWidget = this;
 
-    thisWidget.input.addEventListener('change', function() {
-      thisWidget.setValue(thisWidget.input.value);
+    thisWidget.dom.input.addEventListener('change', function() {
+      thisWidget.setValue(thisWidget.dom.input.value);
     } );
-    thisWidget.linkDecrease.addEventListener('click', function(event){
+    thisWidget.dom.linkDecrease.addEventListener('click', function(event){
       event.preventDefault();
       thisWidget.setValue(thisWidget.value - 1);
       //console.log('minus clicked');
     } );
-    thisWidget.linkIncrease.addEventListener('click', function(event){
+    thisWidget.dom.linkIncrease.addEventListener('click', function(event){
       event.preventDefault();
       thisWidget.setValue(thisWidget.value + 1);
       //console.log('plus clicked');
@@ -62,7 +63,7 @@ class AmountWidget{
     const event = new CustomEvent('updated', {
       bubbles: true
     }); // stworzenie instancji klasy 'Event'
-    thisWidget.element.dispatchEvent(event); //przypisanie elementu na którym zostanie wywołany event
+    thisWidget.dom.wrapper.dispatchEvent(event); //przypisanie elementu na którym zostanie wywołany event
   }
 }
 
