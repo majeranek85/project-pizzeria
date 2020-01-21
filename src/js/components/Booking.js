@@ -64,10 +64,44 @@ class Booking {
           eventsReapeatResponse.json(),
         ]);
       }).then(function([bookings, eventsCurrent, eventsReapeat]){
-        console.log(bookings);
-        console.log(eventsCurrent);
-        console.log(eventsReapeat);
+        //console.log(bookings);
+        //console.log(eventsCurrent);
+        //console.log(eventsReapeat);
+        thisBooking.parseData(bookings, eventsCurrent, eventsReapeat);
       });
+  }
+
+  parseData(bookings, eventsCurrent, eventsReapeat){
+    const thisBooking = this;
+
+    thisBooking.booked = {};
+
+    for(let item of eventsCurrent){
+      thisBooking.makeBooked(item.date, item.hour, item.duration, item.table);
+    }
+
+    console.log('thisBooking.booked', thisBooking.booked);
+    
+  }
+
+  makeBooked(date, hour, duration, table){
+    const thisBooking = this;
+
+    if(typeof thisBooking.booked[date] == 'undefined'){
+      thisBooking.booked[date] = {};
+    }
+
+    const startHour = utils.hourToNumber(hour);
+
+    for(let hourBlock = startHour; hourBlock < startHour + duration; hourBlock += 0.5){
+      console.log('loop', hourBlock);
+
+      if(typeof thisBooking.booked[date][startHour] == 'undefined'){
+        thisBooking.booked[date][startHour] = [];
+      }
+
+      thisBooking.booked[date][startHour].push(table);
+    }
   }
 
   render(element){
