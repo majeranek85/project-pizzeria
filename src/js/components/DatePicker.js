@@ -21,6 +21,7 @@ class DatePicker extends BaseWidget{
     thisWidget.minDate = new Date(thisWidget.value);
     thisWidget.maxDate = utils.addDays(thisWidget.minDate, settings.datePicker.maxDaysInFuture);
 
+    /*START: flatPicker plugin */
     const options = {
 
       defaultDate: thisWidget.minDate,
@@ -42,6 +43,7 @@ class DatePicker extends BaseWidget{
     };
     
     flatpickr(thisWidget.dom.input, options);
+    /* END: flatPicker plugin */
   }
 
   parseValue(value){ //konwertowanie argumentu 'value' na liczbę
@@ -53,7 +55,7 @@ class DatePicker extends BaseWidget{
   }
 
   renderValue(){
-    console.log('render');
+    //console.log('');
   }
 }
 
