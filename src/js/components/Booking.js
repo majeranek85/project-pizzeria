@@ -131,7 +131,7 @@ class Booking {
     //console.log('thisBookin.hour', thisBooking.hour);
     
     let allAvailable = false;
-    console.log('allAvailable', allAvailable);
+    //console.log('allAvailable', allAvailable);
     
     if(
       typeof thisBooking.booked[thisBooking.date] == 'undefined'
@@ -209,6 +209,18 @@ class Booking {
     thisBooking.dom.wrapper.addEventListener('updated', function(){
       thisBooking.updateDOM();
     });
+
+    for(let table of thisBooking.dom.tables){
+      table.addEventListener('click', function(){
+        console.log('table clicked!');
+
+        if(table.classList.contains('booked')){
+          return window.alert('This table is already booked. Please choose another one.');
+        } else {
+          table.classList.add('booked');
+        }
+      });
+    }
   }
 
 }
