@@ -240,7 +240,8 @@ class Booking {
 
     /* Select table/tables */
     if(thisBooking.clickedTable.classList.contains(classNames.booking.tableBooked)){
-      return window.alert('This table is already booked. Please choose another one.');
+      const alert = document.getElementById('alert');
+      alert.classList.toggle('active');
     } else if(thisBooking.clickedTable.classList.contains(classNames.booking.tableSelected)){
       thisBooking.clickedTable.classList.remove(classNames.booking.tableSelected);
     } else {
