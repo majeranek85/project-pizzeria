@@ -11,7 +11,7 @@ class Booking {
     thisBooking.render(element);
     thisBooking.initWidgets();
     thisBooking.getData();
-
+  
   }
 
   getData(){
@@ -194,8 +194,10 @@ class Booking {
     thisBooking.dom.tables = thisBooking.dom.wrapper.querySelectorAll(select.booking.tables);
     //console.log('thisBooking.dom.tables', thisBooking.dom.tables);
 
-    thisBooking.dom.submit = thisBooking.dom.wrapper.querySelector('button[type="submit"]');
+    thisBooking.dom.submit = thisBooking.dom.wrapper.querySelector('.booking-form');
     //console.log('thisBooking.dom.submit', thisBooking.dom.submit);
+    thisBooking.dom.starters = thisBooking.dom.wrapper.querySelectorAll(select.booking.starters);
+    //console.log('thisBooking.dom.starterInputs', thisBooking.dom.starterInputs);
     
   }
 
@@ -222,9 +224,14 @@ class Booking {
 
         //console.log(thisBooking.clickedTable);
         thisBooking.selectTable();
-      
+        
       });
     }
+
+    thisBooking.dom.submit.addEventListener('submit', function(event){
+      event.preventDefault();
+      thisBooking.sendReservation();
+    });
     
   }
 
@@ -238,25 +245,33 @@ class Booking {
     } else {
       thisBooking.clickedTable.classList.add(classNames.booking.tableSelected);
       thisBooking.selectedTable = thisBooking.clickedTable.getAttribute(settings.booking.tableIdAttribute);
-      thisBooking.sendReservation();
     }
-
+    
   }
+
 
   sendReservation(){
 
     const thisBooking = this;
 
-    const bookingData = {
+    thisBooking.data = {
       date: thisBooking.datePicker.value,
       hour: thisBooking.hourPicker.value,
       table: thisBooking.selectedTable,
       duration: thisBooking.hoursAmount.value,
       ppl:thisBooking.peopleAmount.value,
-      starters:[],
+      starters: [],
     };
     //return bookingData;
-    console.log('bookingData', bookingData);
+    console.log('bookingData', thisBooking.data);
+    
+    for(let i = 0; i < thisBooking.dom.starters.length; i++) {
+      if(thisBooking.dom.starters[i].checked == true){
+
+        thisBooking.data.starters.push(thisBooking.dom.starters[i].value);
+      }
+    }
+
   }
 
 }
