@@ -192,7 +192,7 @@ class Booking {
     //console.log('thisBooking.dom.hourPicker', thisBooking.dom.hourPicker);
 
     thisBooking.dom.tables = thisBooking.dom.wrapper.querySelectorAll(select.booking.tables);
-    //console.log('thisBooking.dom.tables', thisBooking.dom.tables);
+    console.log('thisBooking.dom.tables', thisBooking.dom.tables);
 
     thisBooking.dom.submit = thisBooking.dom.wrapper.querySelector('.booking-form');
     //console.log('thisBooking.dom.submit', thisBooking.dom.submit);
@@ -238,17 +238,36 @@ class Booking {
   selectTable(){
     const thisBooking = this;
 
+    /* Select table/tables */
     if(thisBooking.clickedTable.classList.contains(classNames.booking.tableBooked)){
       return window.alert('This table is already booked. Please choose another one.');
     } else if(thisBooking.clickedTable.classList.contains(classNames.booking.tableSelected)){
       thisBooking.clickedTable.classList.remove(classNames.booking.tableSelected);
     } else {
-      thisBooking.clickedTable.classList.add(classNames.booking.tableSelected);
-      thisBooking.selectedTable = thisBooking.clickedTable.getAttribute(settings.booking.tableIdAttribute);
+      thisBooking.clickedTable.classList.add(classNames.booking.tableSelected);      
+    }
+
+    /* Add selected table to reservation */
+    thisBooking.tablesSelected = [];
+
+    for(let i = 0; i < thisBooking.dom.tables.length; i++) {
+      if(thisBooking.dom.tables[i].classList.contains(classNames.booking.tableSelected)){
+        thisBooking.tableNumber = thisBooking.dom.tables[i].dataset.table;
+        thisBooking.tablesSelected.push(thisBooking.tableNumber);
+        //console.log(thisBooking.tablesSelected); 
+      } 
+    }
+
+    /* Add selected starters to reservation */
+    thisBooking.starters = [];
+    
+    for(let i = 0; i < thisBooking.dom.starters.length; i++) {
+      if(thisBooking.dom.starters[i].checked == true){
+        thisBooking.starters.push(thisBooking.dom.starters[i].value);
+      }
     }
     
   }
-
 
   sendReservation(){
 
@@ -257,20 +276,14 @@ class Booking {
     thisBooking.data = {
       date: thisBooking.datePicker.value,
       hour: thisBooking.hourPicker.value,
-      table: thisBooking.selectedTable,
+      table: thisBooking.tablesSelected,
       duration: thisBooking.hoursAmount.value,
       ppl:thisBooking.peopleAmount.value,
-      starters: [],
+      starters: thisBooking.starters,
     };
     //return bookingData;
     console.log('bookingData', thisBooking.data);
-    
-    for(let i = 0; i < thisBooking.dom.starters.length; i++) {
-      if(thisBooking.dom.starters[i].checked == true){
 
-        thisBooking.data.starters.push(thisBooking.dom.starters[i].value);
-      }
-    }
 
   }
 

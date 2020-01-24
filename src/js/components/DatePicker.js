@@ -39,7 +39,7 @@ class DatePicker extends BaseWidget{
         function(selectedData, dateStr){
           thisWidget.value = dateStr;
           console.log(selectedData);
-          
+          console.log(dateStr);
         },
         
     };
