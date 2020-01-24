@@ -95,7 +95,7 @@ class Booking {
       }
     }
 
-    console.log('thisBooking.booked', thisBooking.booked);
+    //console.log('thisBooking.booked', thisBooking.booked);
     
     thisBooking.updateDOM();
     
@@ -193,6 +193,10 @@ class Booking {
 
     thisBooking.dom.tables = thisBooking.dom.wrapper.querySelectorAll(select.booking.tables);
     //console.log('thisBooking.dom.tables', thisBooking.dom.tables);
+
+    thisBooking.dom.submit = thisBooking.dom.wrapper.querySelector('button[type="submit"]');
+    //console.log('thisBooking.dom.submit', thisBooking.dom.submit);
+    
   }
 
   initWidgets(){
@@ -211,16 +215,48 @@ class Booking {
     });
 
     for(let table of thisBooking.dom.tables){
-      table.addEventListener('click', function(){
-        console.log('table clicked!');
+      table.addEventListener('click', function(event){
+        //console.log('table clicked!');
 
-        if(table.classList.contains('booked')){
-          return window.alert('This table is already booked. Please choose another one.');
-        } else {
-          table.classList.add('booked');
-        }
+        thisBooking.clickedTable = event.target;
+
+        //console.log(thisBooking.clickedTable);
+        thisBooking.selectTable();
+      
       });
     }
+    
+  }
+
+  selectTable(){
+    const thisBooking = this;
+
+    if(thisBooking.clickedTable.classList.contains(classNames.booking.tableBooked)){
+      return window.alert('This table is already booked. Please choose another one.');
+    } else if(thisBooking.clickedTable.classList.contains(classNames.booking.tableSelected)){
+      thisBooking.clickedTable.classList.remove(classNames.booking.tableSelected);
+    } else {
+      thisBooking.clickedTable.classList.add(classNames.booking.tableSelected);
+      thisBooking.selectedTable = thisBooking.clickedTable.getAttribute(settings.booking.tableIdAttribute);
+      thisBooking.sendReservation();
+    }
+
+  }
+
+  sendReservation(){
+
+    const thisBooking = this;
+
+    const bookingData = {
+      date: thisBooking.datePicker.value,
+      hour: thisBooking.hourPicker.value,
+      table: thisBooking.selectedTable,
+      duration: thisBooking.hoursAmount.value,
+      ppl:thisBooking.peopleAmount.value,
+      starters:[],
+    };
+    //return bookingData;
+    console.log('bookingData', bookingData);
   }
 
 }
