@@ -253,9 +253,13 @@ class Booking {
 
     for(let i = 0; i < thisBooking.dom.tables.length; i++) {
       if(thisBooking.dom.tables[i].classList.contains(classNames.booking.tableSelected)){
-        thisBooking.tableNumber = thisBooking.dom.tables[i].dataset.table;
-        thisBooking.tablesSelected.push(thisBooking.tableNumber);
-        //console.log(thisBooking.tablesSelected); 
+        let tableNumber = thisBooking.dom.tables[i].dataset.table;
+        if(!isNaN(tableNumber)){
+          tableNumber = parseInt(tableNumber);
+        }
+        
+        thisBooking.tablesSelected.push(tableNumber);
+      //console.log(thisBooking.tablesSelected); 
       } 
     }
   }
@@ -299,6 +303,7 @@ class Booking {
         return response.json(); 
       }).then(function(parsedResponse){
         console.log('parsedResponse', parsedResponse);
+        
       }); 
 
     for(let table of thisBooking.dom.tables){
@@ -308,6 +313,7 @@ class Booking {
       }
     }
   }
+
 }
 
 export default Booking;
