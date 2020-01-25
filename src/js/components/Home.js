@@ -1,4 +1,4 @@
-import {templates} from '../settings.js';
+import {templates, select} from '../settings.js';
 import {utils} from '../utils.js';
 class Home {
   constructor(){
@@ -15,6 +15,12 @@ class Home {
 
     /* create element using utils.createElementFromHTML */
     thisHome.element = utils.createDOMFromHTML(generatedHTML);
+
+    /* find home page container */
+    const homeContainer = document.querySelector(select.containerOf.home);
+
+    /* add element to home page */
+    homeContainer.appendChild(thisHome.element);
   }
 }
 
