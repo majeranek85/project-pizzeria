@@ -221,9 +221,7 @@ class Booking {
     for(let table of thisBooking.dom.tables){
       table.addEventListener('click', function(event){
         //console.log('table clicked!');
-
         thisBooking.clickedTable = event.target;
-
         //console.log(thisBooking.clickedTable);
         thisBooking.selectTable();
         
@@ -302,6 +300,13 @@ class Booking {
       }).then(function(parsedResponse){
         console.log('parsedResponse', parsedResponse);
       }); 
+
+    for(let table of thisBooking.dom.tables){
+      if(table.classList.contains(classNames.booking.tableSelected)){
+        table.classList.remove(classNames.booking.tableSelected);
+        table.classList.add(classNames.booking.tableBooked);
+      }
+    }
   }
 }
 
