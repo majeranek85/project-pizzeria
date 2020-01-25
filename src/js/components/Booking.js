@@ -242,10 +242,8 @@ class Booking {
     if(thisBooking.clickedTable.classList.contains(classNames.booking.tableBooked)){
       const alert = document.getElementById('alert');
       alert.classList.toggle('active');
-    } else if(thisBooking.clickedTable.classList.contains(classNames.booking.tableSelected)){
-      thisBooking.clickedTable.classList.remove(classNames.booking.tableSelected);
     } else {
-      thisBooking.clickedTable.classList.add(classNames.booking.tableSelected);      
+      thisBooking.clickedTable.classList.toggle(classNames.booking.tableSelected);      
     }
 
     /* Add selected table to reservation */
