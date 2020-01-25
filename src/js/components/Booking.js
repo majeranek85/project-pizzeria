@@ -198,6 +198,8 @@ class Booking {
     //console.log('thisBooking.dom.submit', thisBooking.dom.submit);
     thisBooking.dom.starters = thisBooking.dom.wrapper.querySelectorAll(select.booking.starters);
     //console.log('thisBooking.dom.starterInputs', thisBooking.dom.starterInputs);
+    thisBooking.dom.phone = thisBooking.dom.wrapper.querySelector(select.booking.phone);
+    thisBooking.dom.address = thisBooking.dom.wrapper.querySelector(select.booking.address);
     
   }
 
@@ -258,36 +260,49 @@ class Booking {
         //console.log(thisBooking.tablesSelected); 
       } 
     }
-
-    /* Add selected starters to reservation */
-    thisBooking.starters = [];
-    
-    for(let i = 0; i < thisBooking.dom.starters.length; i++) {
-      if(thisBooking.dom.starters[i].checked == true){
-        thisBooking.starters.push(thisBooking.dom.starters[i].value);
-      }
-    }
-    
   }
 
   sendReservation(){
 
     const thisBooking = this;
 
-    thisBooking.data = {
+    const url = settings.db.url + '/' + settings.db.booking;
+
+    const payload = {
+      address: thisBooking.dom.address.value,
+      phone: thisBooking.dom.phone.value,
       date: thisBooking.datePicker.value,
       hour: thisBooking.hourPicker.value,
       table: thisBooking.tablesSelected,
       duration: thisBooking.hoursAmount.value,
       ppl:thisBooking.peopleAmount.value,
-      starters: thisBooking.starters,
+      starters: [],
     };
-    //return bookingData;
-    console.log('bookingData', thisBooking.data);
+  
+    //console.log('payload', payload);
 
+    /* Add selected starters to reservation */
+    for(let i = 0; i < thisBooking.dom.starters.length; i++) {
+      if(thisBooking.dom.starters[i].checked == true){
+        payload.starters.push(thisBooking.dom.starters[i].value);
+      }
+    }
 
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    };
+
+    fetch(url, options) 
+      .then(function(response){
+        return response.json(); 
+      }).then(function(parsedResponse){
+        console.log('parsedResponse', parsedResponse);
+      }); 
   }
-
 }
 
 export default Booking;
