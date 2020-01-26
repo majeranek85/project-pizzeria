@@ -192,7 +192,7 @@ class Booking {
     //console.log('thisBooking.dom.hourPicker', thisBooking.dom.hourPicker);
 
     thisBooking.dom.tables = thisBooking.dom.wrapper.querySelectorAll(select.booking.tables);
-    console.log('thisBooking.dom.tables', thisBooking.dom.tables);
+    //console.log('thisBooking.dom.tables', thisBooking.dom.tables);
 
     thisBooking.dom.submit = thisBooking.dom.wrapper.querySelector('.booking-form');
     //console.log('thisBooking.dom.submit', thisBooking.dom.submit);

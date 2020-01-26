@@ -4,7 +4,9 @@ class Home {
   constructor(){
     const thisHome = this;
 
+    
     thisHome.render();
+    thisHome.initSlider();
   }
 
   render(){
@@ -21,6 +23,21 @@ class Home {
 
     /* add element to home page */
     homeContainer.appendChild(thisHome.element);
+  }
+
+  initSlider(){
+    const thisHome = this;
+
+    thisHome.slides = document.querySelectorAll('#slides .slide')
+    let currentSlide = 0;
+    
+    setInterval(nextSlide, 3000);
+
+    function nextSlide() {
+      thisHome.slides[currentSlide].className = 'slide';
+      currentSlide = (currentSlide + 1)%thisHome.slides.length;
+      thisHome.slides[currentSlide].className = 'slide active';
+    }
   }
 }
 
