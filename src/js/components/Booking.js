@@ -304,12 +304,17 @@ class Booking {
         
       }); 
 
+    for(let tableId of thisBooking.tablesSelected){
+      thisBooking.makeBooked(payload.date, payload.hour, payload.duration, tableId);
+    }
+
     for(let table of thisBooking.dom.tables){
       if(table.classList.contains(classNames.booking.tableSelected)){
         table.classList.remove(classNames.booking.tableSelected);
-        table.classList.add(classNames.booking.tableBooked);
       }
     }
+
+    thisBooking.updateDOM();
   }
 
 }
