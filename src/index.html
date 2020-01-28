@@ -76,75 +76,84 @@
 
   <script id="template-home-wrapper" type="text/x-handlebars-template">
     <div class="home-wrapper">
-
       <section class="home-nav">
- 
         <div class="row">
-          <div class="link box-order">
+          <div class="link box-order h1">
             <a href="#booking">
               <img src="images/home/pizza-1.jpg" alt="">
               <p>Order online</p>
             </a>
           </div>
-          <div class="link">
+          <div class="link h1">
             <a href="#booking">
               <img src="images/home/pizza-2.jpg" alt="">
               <p>book a table</p>
             </a>
           </div>
         </div>
-
         <div class="row">
           <div class="box-bottom">
             <div class="open">
-              <p>Opening hours:</p>
+              <p class="h1">Opening hours:</p>
               <p>tue - sun, 12am - 12pm</p>
             </div>
           </div>
         </div>
-
       </section>
 
       <section class="opinions">
-
-          <div class="row">
-            <div class="opinions-image">
-              <img src="images/home/pizza-3.jpg" alt="">
-            </div>
-            <ul id="slides">
-              <li class="slide active">
-                <div class="slide-text">
-                  <h3 class="h3">Amazing service!</h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis velit erat, luctus ac risus et, feugiat blandit erat. Suspendisse eros velit, pharetra a maximus ornare, vulputate a purus.</p>
-                  <p> - <em>Margaret Osborne</em></p>
-                </div>
-              </li>
-              <li class="slide">
-                <div class="slide-text">
-                  <h3 class="h3">Best pizza ever!</h3>
-                  <p>Fusce et arcu mauris. Aliquam ultrices nec mi et venenatis. Nam ac diam sit amet dolor accumsan faucibus. Sed cursus laoreet iaculis. Mauris vitae felis sagittis tellus dictum fermentum non non dolor.</p>
-                  <p> - <em>Mike Wazowsky</em></p>
-                </div>
-              </li>
-              <li class="slide">
-                <div class="slide-text">
-                  <h3 class="h3">Worm in salad ;P !</h3>
-                  <p>Duis velit erat, luctus ac risus et, feugiat blandit erat. Suspendisse eros velit, pharetra a maximus ornare, vulputate a purus.</p>
-                  <p> - <em>Bass Astral</em></p>
-                </div>
-              </li>
-            </ul>
-          
+        <div class="row">
+          <div class="opinions-image">
+            <img src="images/home/pizza-3.jpg" alt="">
           </div>
-          <div class="pagination">
-            <a class="pag-link active" href="#">1</a>
-            <a class="pag-link" href="#">2</a>
-            <a class="pag-link" href="#">3</a>
-          </div>
-
+          <ul id="slides">
+            <li class="slide active">
+              <div class="slide-text">
+                <h2 class="h2">Amazing service!</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis velit erat, luctus ac risus et, feugiat blandit erat. Suspendisse eros velit, pharetra a maximus ornare, vulputate a purus.</p>
+                <p> - <em>Margaret Osborne</em></p>
+              </div>
+            </li>
+            <li class="slide">
+              <div class="slide-text">
+                <h2 class="h2">Best pizza ever!</h2>
+                <p>Fusce et arcu mauris. Aliquam ultrices nec mi et venenatis. Nam ac diam sit amet dolor accumsan faucibus. Sed cursus laoreet iaculis. Mauris vitae felis sagittis tellus dictum fermentum non non dolor.</p>
+                <p> - <em>Mike Wazowsky</em></p>
+              </div>
+            </li>
+            <li class="slide">
+              <div class="slide-text">
+                <h2 class="h2">Worm in salad ;P !</h2>
+                <p>Duis velit erat, luctus ac risus et, feugiat blandit erat. Suspendisse eros velit, pharetra a maximus ornare, vulputate a purus.</p>
+                <p> - <em>Bass Astral</em></p>
+              </div>
+            </li>
+          </ul> 
+        </div>
+        <div class="pagination">
+          <a class="pag-link active" href="#">1</a>
+          <a class="pag-link" href="#">2</a>
+          <a class="pag-link" href="#">3</a>
+        </div>
       </section>
+      <section class="gallery">
+          <div class="gallery-wrapper"></div>
+      </section>
+      <footer><a href="#">View more on Instagram</a></footer>
+    </div>
+  </script>
 
-      <section class="gallery">images</section>
+  <script id="template-gallery-item" type="text/x-handlebars-template">
+    <div class="image-wrapper">
+      {{#each image}}
+      <div class="gallery-image">
+        <img src="{{source}}" alt="{{alt}}" title="{{title}}">
+        <div class="overlay">
+          <a href="#"><i class="fas fa-share-alt"></i></a>
+          <a href="#"><i class="fas fa-heart"></i></a>
+        </div>
+      </div>
+      {{/each}}
     </div>
   </script>
 

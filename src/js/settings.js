@@ -5,6 +5,7 @@ export const select = {
     cartProduct: '#template-cart-product',
     bookingWidget:'#template-booking-widget',
     home: '#template-home-wrapper',
+    gallery: '#template-gallery-item',
   },
   containerOf: {
     menu: '#product-list',
@@ -12,6 +13,7 @@ export const select = {
     pages: '#pages',
     booking: '.booking-wrapper',
     home: '.home-page-wrapper',
+    gallery: '.gallery-wrapper',
   },
   all: {
     menuProducts: '#product-list > .product',
@@ -34,7 +36,7 @@ export const select = {
     },
     datePicker: {
       wrapper: '.date-picker',
-      input: `input[name="date"]`,
+      input: 'input[name="date"]',
     },
     hourPicker: {
       wrapper: '.hour-picker',
@@ -119,6 +121,7 @@ export const settings = {
     order: 'order',
     booking: 'booking',
     event: 'event',
+    gallery: 'gallery',
     dateStartParamKey: 'date_gte',
     dateEndParamKey: 'date_lte',
     notRepeatParam: 'repeat=false',
@@ -131,4 +134,5 @@ export const templates = {
   cartProduct: Handlebars.compile(document.querySelector(select.templateOf.cartProduct).innerHTML),
   bookingWidget: Handlebars.compile(document.querySelector(select.templateOf.bookingWidget).innerHTML),
   home: Handlebars.compile(document.querySelector(select.templateOf.home).innerHTML),
+  gallery: Handlebars.compile(document.querySelector(select.templateOf.gallery).innerHTML),
 };
