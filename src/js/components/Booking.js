@@ -158,6 +158,10 @@ class Booking {
         table.classList.remove(classNames.booking.tableBooked);
       }
     }
+
+    for(let table of thisBooking.dom.tables){
+      table.classList.remove(classNames.booking.tableSelected);
+    }
     
   }
 
@@ -207,11 +211,8 @@ class Booking {
     const thisBooking = this;
 
     thisBooking.peopleAmount = new AmountWidget(thisBooking.dom.peopleAmount);
-
     thisBooking.hoursAmount = new AmountWidget(thisBooking.dom.hoursAmount);
-
     thisBooking.datePicker = new DatePicker(thisBooking.dom.datePicker);
-    
     thisBooking.hourPicker = new HourPicker(thisBooking.dom.hourPicker);
 
     thisBooking.dom.wrapper.addEventListener('updated', function(){
@@ -223,8 +224,7 @@ class Booking {
         //console.log('table clicked!');
         thisBooking.clickedTable = event.target;
         //console.log(thisBooking.clickedTable);
-        thisBooking.selectTable();
-        
+        thisBooking.selectTable();   
       });
     }
 
@@ -306,12 +306,6 @@ class Booking {
 
     for(let tableId of thisBooking.tablesSelected){
       thisBooking.makeBooked(payload.date, payload.hour, payload.duration, tableId);
-    }
-
-    for(let table of thisBooking.dom.tables){
-      if(table.classList.contains(classNames.booking.tableSelected)){
-        table.classList.remove(classNames.booking.tableSelected);
-      }
     }
 
     thisBooking.updateDOM();
