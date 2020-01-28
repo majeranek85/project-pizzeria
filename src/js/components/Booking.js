@@ -157,8 +157,8 @@ class Booking {
       } else {
         table.classList.remove(classNames.booking.tableBooked);
       }
-    }
-    
+
+    } 
   }
 
   render(element){
@@ -216,15 +216,11 @@ class Booking {
     });
 
     thisBooking.dom.datePicker.addEventListener('updated', function(){
-      for(let table of thisBooking.dom.tables){
-        table.classList.remove(classNames.booking.tableSelected);
-      }
+      thisBooking.clearSelected();
     });
 
     thisBooking.dom.hourPicker.addEventListener('updated', function(){
-      for(let table of thisBooking.dom.tables){
-        table.classList.remove(classNames.booking.tableSelected);
-      }
+      thisBooking.clearSelected();
     });
 
     for(let table of thisBooking.dom.tables){
@@ -239,8 +235,17 @@ class Booking {
     thisBooking.dom.submit.addEventListener('submit', function(event){
       event.preventDefault();
       thisBooking.sendReservation();
+      thisBooking.clearSelected();
     });
     
+  }
+
+  clearSelected(){
+    const thisBooking = this;
+
+    for(let table of thisBooking.dom.tables){
+      table.classList.remove(classNames.booking.tableSelected);
+    }
   }
 
   selectTable(){
