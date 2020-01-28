@@ -17,27 +17,54 @@ section {
 }
 
 /* Nav */
-.link {
+.box {
   flex: 0 0 50%;
-  position: relative;
   height: 110px;
-  margin-top: 5px;
+  margin: 0;
+  position: relative;
+  text-align: center;
+  display: unset;
 
-  a {
-    text-decoration: none;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: $radius;
+  }
 
-    img {
-      height: 100%;
+  figcaption {
+    position: absolute;
+    top: auto;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    color: $color-light;
+
+    h1{
+      position: absolute;
+      top: 50%;
+      left: 0;
       width: 100%;
-      object-fit: cover;
-      border-radius: $radius;
+      transform: translate3d(0, -50%, 0);
+      margin: 0;
     }
 
     p {
-      @include center;
-      margin: 0;
-      color: $color-light;
-      text-transform: uppercase;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      padding: 24px;
+      width: 100%;
+      //opacity: 0;
+      transform: translate3d(0, 20px, 0);
+    }
+    
+    a {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
     }
   }
 }
@@ -57,9 +84,13 @@ section {
   .open {
     @include center;
     text-align: center;
+    color: $color-light;
+
+    h1 {
+      margin: 0;
+    }
     
     p {
-      color: $color-light;
       text-transform: uppercase;
       margin: 0;
     }
