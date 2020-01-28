@@ -4,7 +4,6 @@ import Cart from './components/Cart.js';
 import Booking from './components/Booking.js';
 import Home from './components/Home.js';
 
-
 const app = {
   initBooking: function(){
     /* find wrapper of booking page*/
@@ -111,9 +110,28 @@ const app = {
   },
   initHome: function(){
     const thisApp = this;
-  
+    
     const homeElem = document.querySelector(select.containerOf.home);
     thisApp.home = new Home(homeElem);
+
+    thisApp.homeNavLinks = document.querySelectorAll('.box a');
+  
+    //console.log('thisApp.homeNavLinks', thisApp.homeNavLinks);
+
+    for(let link of thisApp.homeNavLinks){
+      link.addEventListener('click', function(event){
+        const clickedElement = this;
+        event.preventDefault();
+        /* get page id from href attribute */
+        const id = clickedElement.getAttribute('href').replace('#', '');
+
+        /* run thisApp.activatePage with that id */
+        thisApp.activatePage(id);
+
+        /* change URL hash */
+        window.location.hash = '#/' + id;
+      });
+    }
   },
 
   init: function(){
@@ -126,7 +144,6 @@ const app = {
 
     thisApp.initPages();
     thisApp.initBooking();
-
     thisApp.initData();
     thisApp.initCart();
     thisApp.initHome();
