@@ -1,3 +1,4 @@
+
 import {templates, select, settings} from '../settings.js';
 import {utils} from '../utils.js';
 class Home {
@@ -66,24 +67,14 @@ class Home {
   }
 
   initSlider(){
-    const thisHome = this;
-
-    thisHome.slides = document.querySelectorAll('#slides .slide');
-    thisHome.pagLinks = document.querySelectorAll('.pagination a');
-    let currentSlide = 0;
-    let currentLink = 0;
-
-    setInterval(nextSlide, 3000);
-
-    function nextSlide() {
-      thisHome.slides[currentSlide].className = 'slide';
-      thisHome.pagLinks[currentLink].className = 'pag-link';
-
-      currentSlide = (currentSlide + 1)%thisHome.slides.length;
-      currentLink = (currentLink + 1)%thisHome.pagLinks.length;
-      thisHome.slides[currentSlide].className = 'slide active';
-      thisHome.pagLinks[currentLink].className = 'pag-link active';
-    }
+    this.elem = document.querySelector('.main-carousel');
+    this.flickity = new Flickity(this.elem, {
+      // options
+      cellAlign: 'center',
+      autoPlay: true,
+      wrapAround: true,
+      prevNextButtons: false
+    }); 
   }
 }
 

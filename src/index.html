@@ -9,6 +9,7 @@
   <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <link rel="stylesheet" href="vendor/range-slider.min.css">
+  <link rel="stylesheet" href="vendor/flickity.min.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -110,34 +111,29 @@
           <div class="opinions-image">
             <img src="images/home/pizza-3.jpg" alt="">
           </div>
-          <ul id="slides">
-            <li class="slide active">
-              <div class="slide-text">
+          <div class="main-carousel">
+            <div class="carousel-cell">
+              <div class="carousel-text">
                 <h2 class="h2">Amazing service!</h2>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis velit erat, luctus ac risus et, feugiat blandit erat. Suspendisse eros velit, pharetra a maximus ornare, vulputate a purus.</p>
                 <p> - <em>Margaret Osborne</em></p>
               </div>
-            </li>
-            <li class="slide">
-              <div class="slide-text">
+            </div>
+            <div class="carousel-cell">
+              <div class="carousel-text">
                 <h2 class="h2">Best pizza ever!</h2>
                 <p>Fusce et arcu mauris. Aliquam ultrices nec mi et venenatis. Nam ac diam sit amet dolor accumsan faucibus. Sed cursus laoreet iaculis. Mauris vitae felis sagittis tellus dictum fermentum non non dolor.</p>
                 <p> - <em>Mike Wazowsky</em></p>
               </div>
-            </li>
-            <li class="slide">
-              <div class="slide-text">
+            </div>
+            <div class="carousel-cell">
+              <div class="carousel-text">
                 <h2 class="h2">Worm in salad ;P !</h2>
                 <p>Duis velit erat, luctus ac risus et, feugiat blandit erat. Suspendisse eros velit, pharetra a maximus ornare, vulputate a purus.</p>
                 <p> - <em>Bass Astral</em></p>
               </div>
-            </li>
-          </ul> 
-        </div>
-        <div class="pagination">
-          <a class="pag-link active" href="#">1</a>
-          <a class="pag-link" href="#">2</a>
-          <a class="pag-link" href="#">3</a>
+            </div>
+          </div> 
         </div>
       </section>
       <section class="gallery">
@@ -341,6 +337,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.0/handlebars.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="vendor/range-slider.min.js"></script>
+  <script src="vendor/flickity.pkgd.min.js"></script>
   <script src="js/app.js" type="module"></script>
 </body>
 </html>
