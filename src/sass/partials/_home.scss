@@ -168,9 +168,9 @@ section {
 }
 
 .overlay {
-  @include center;
   position: relative;
   z-index: 1;
+  @include center;
   display: none;
 
   a {
