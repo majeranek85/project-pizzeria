@@ -128,6 +128,7 @@ section {
 .gallery {
   padding-bottom: 20px;
 }
+
 .image-wrapper {
   display: flex;
   flex-wrap: wrap;
@@ -167,17 +168,17 @@ section {
 }
 
 .overlay {
+  @include center;
   position: relative;
   z-index: 1;
-  @include center;
   display: none;
 
   a {
     color: $color-light;
-    text-decoration: none; 
-    margin-right: 10px; 
+    text-decoration: none;
+    margin-right: 10px;
 
-    i{
+    i {
       font-size: 20px;
 
       &:hover {
@@ -187,6 +188,6 @@ section {
   }
 }
 
-footer a{
+footer a {
   color: $color-main;
 }
