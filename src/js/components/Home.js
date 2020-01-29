@@ -67,7 +67,7 @@ class Home {
 
   initSlider(){
     this.elem = document.querySelector('.main-carousel');
-    this.flickity = new Flickity(this.elem, {
+    this.flickity = new Flickity(this.elem, { // eslint-disable-line
       // options
       cellAlign: 'center',
       autoPlay: true,
